@@ -60,7 +60,7 @@ public class WordGraph {
       String[] words = cleanedText.trim().split("\\s+"); // Split by one or more spaces
 
       if (words.length < 2) {
-        System.out.println("Not enough words to form a graph.");
+        System.out.println("Not enough words to build a graph.");
         return false;
       }
 
@@ -149,9 +149,14 @@ public class WordGraph {
       return "No bridge words from \"" + word1 + "\" to \"" + word2 + "\"!";
     } else {
       StringBuilder result = new StringBuilder("The bridge words from \"")
-          .append(word1).append("\" to \"").append(word2).append("\" are: ");
+          .append(word1).append("\" to \"").append(word2).append("\" ");
+      if (bridgeWords.size() == 1) {
+        result.append("is: ");
+      } else {
+        result.append("are: ");
+      }
       for (int i = 0; i < bridgeWords.size(); i++) {
-        result.append(bridgeWords.get(i));
+        result.append("\"").append(bridgeWords.get(i)).append("\"");
         if (i < bridgeWords.size() - 2) {
           result.append(", ");
         } else if (i == bridgeWords.size() - 2) {
@@ -298,7 +303,13 @@ public class WordGraph {
     final double epsilon = 0.01;
     final int n = allWordsInGraph.size(); // Get number of vertices
 
-    if (n == 0) {
+    if (word == null) {
+      return -1.0;
+    }
+
+    word = word.toLowerCase();
+
+    if (n == 0 || !allWordsInGraph.contains(word)) {
       return -1.0;
     }
 
