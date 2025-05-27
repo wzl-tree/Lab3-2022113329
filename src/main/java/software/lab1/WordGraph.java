@@ -26,7 +26,7 @@ public class WordGraph {
 
   // Adjacency list representation: Map<sourceWord, Map<destinationWord, weight>>
   private final Map<String, Map<String, Integer>> adjList;
-  private final Set<String> allWordsInGraph; // To quickly check if a word exists in the graph
+  final Set<String> allWordsInGraph; // To quickly check if a word exists in the graph
 
   /**
    * Constructs an empty WordGraph.
@@ -415,18 +415,18 @@ public class WordGraph {
    *
    * @return A List of words representing the traversed path.
    */
-  public List<String> randomWalk() {
+  public String randomWalk(Random rand) {
     List<String> traversedPath = new ArrayList<>();
     if (allWordsInGraph.isEmpty()) {
-      return traversedPath; // Return empty list for empty graph
+      return ""; // Return empty list for empty graph
     }
 
-    Random rand = new Random();
     List<String> nodesList = new ArrayList<>(allWordsInGraph);
     String currentWord = nodesList.get(rand.nextInt(nodesList.size())); // Random starting node
     traversedPath.add(currentWord);
 
     Set<String> visitedEdges = new HashSet<>(); // Keep track of visited edges to detect repetition
+
 
     while (true) {
       Map<String, Integer> possibleNextWords =
@@ -457,7 +457,7 @@ public class WordGraph {
       traversedPath.add(nextWord);
       currentWord = nextWord;
     }
-    return traversedPath;
+    return String.join(" ", traversedPath);
   }
 
   // Helper class for Dijkstra's algorithm

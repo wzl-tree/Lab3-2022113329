@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 /**
@@ -115,7 +116,8 @@ public class Main {
     Thread inputListener = getInputListener(reader, stopRandomWalk);
     inputListener.start();
 
-    List<String> path = graph.randomWalk();
+    List<String> path = List.of(graph.randomWalk(new Random()).split("\\s+"));
+
     StringBuilder outputBuilder = new StringBuilder("Random Walk Path: ");
     int count = 0;
     for (String wordInPath : path) {
