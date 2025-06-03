@@ -2,6 +2,7 @@ package software.lab1;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,6 +16,7 @@ import java.util.PriorityQueue;
 import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
+import org.apache.commons.io.FilenameUtils;
 
 /**
  * Represents a directed graph where nodes are words and edges represent word sequences.
@@ -44,9 +46,10 @@ public class WordGraph {
    * @param filePath The path to the input text file.
    * @return true if the graph was built successfully, false otherwise.
    */
+  @SuppressWarnings("checkstyle:LambdaParameterName")
   public boolean buildGraphFromFile(String filePath) {
     try {
-      File file = new File(filePath);
+      File file = new File(FilenameUtils.getName(filePath));
       Scanner scanner = new Scanner(file);
       StringBuilder rawText = new StringBuilder();
       while (scanner.hasNextLine()) {
@@ -72,7 +75,7 @@ public class WordGraph {
         String word1 = words[i];
         String word2 = words[i + 1];
 
-        adjList.computeIfAbsent(word1, k -> new HashMap<>())
+        adjList.computeIfAbsent(word1, _ -> new HashMap<>())
             .merge(word2, 1, Integer::sum); // Increment weight if edge exists
       }
       return true;
@@ -184,7 +187,7 @@ public class WordGraph {
     }
 
     StringBuilder newText = new StringBuilder();
-    Random rand = new Random();
+    SecureRandom rand = new SecureRandom();
 
     for (int i = 0; i < words.length - 1; i++) {
       String word1 = words[i];
